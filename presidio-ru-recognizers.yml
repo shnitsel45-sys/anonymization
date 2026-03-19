@@ -1,0 +1,106 @@
+global_regex_flags: 26
+
+supported_languages:
+  - ru
+
+recognizers:
+
+  - name: SpacyRecognizer
+    type: predefined
+    supported_languages:
+      - language: ru
+        context: [имя, фамилия, человек, зовут]
+    enabled: true
+
+  - name: EmailRecognizer
+    type: predefined
+    supported_languages:
+      - language: ru
+        context: [email, почта, электронная, ящик]
+    enabled: true
+
+  - name: PhoneRecognizer
+    type: predefined
+    supported_languages:
+      - language: ru
+        context: [телефон, тел, моб, телефонный, номер]
+    enabled: true
+
+  - name: CreditCardRecognizer
+    type: predefined
+    supported_languages:
+      - language: ru
+        context: [карта, кредитная, visa, mastercard, номер карты]
+    enabled: true
+
+  - name: RussianCreditCardRecognizer
+    type: custom
+    supported_entity: "CREDIT_CARD"
+    supported_languages:
+      - language: ru
+        context: [карта, кредитная, дебетовая, visa, mastercard, мир, номер карты, платежная]
+    patterns:
+      - name: "Credit Card 16 digits with separators"
+        regex: "\\b\\d{4}[-\\s]?\\d{4}[-\\s]?\\d{4}[-\\s]?\\d{4}\\b"
+        score: 0.85
+      - name: "Credit Card 16 digits continuous"
+        regex: "\\b\\d{16}\\b"
+        score: 0.8
+      - name: "Credit Card 15 digits (Amex)"
+        regex: "\\b\\d{4}[-\\s]?\\d{6}[-\\s]?\\d{5}\\b"
+        score: 0.75
+    enabled: true
+
+  - name: RussianINNRecognizer
+    type: custom
+    supported_entity: "INN"
+    supported_languages:
+      - language: ru
+        context: [инн, налог, налогоплательщик]
+    patterns:
+      - name: "INN 10 digits"
+        regex: "\\b\\d{10}\\b"
+        score: 0.85
+      - name: "INN 12 digits"
+        regex: "\\b\\d{12}\\b"
+        score: 0.85
+    enabled: true
+
+  - name: RussianMoneyRecognizer
+    type: custom
+    supported_entity: "MONEY"
+    supported_languages:
+      - language: ru
+        context: [рубль, рублей, руб, зарплата, цена, стоимость]
+    patterns:
+      - name: "Money in rubles"
+        regex: "\\d+(?:\\s?\\d{3})*(?:[.,]\\d{2})?\\s?(?:руб|рублей)"
+        score: 0.75
+    enabled: true
+
+  - name: RussianDateRecognizer
+    type: custom
+    supported_entity: "DATE_TIME"
+    supported_languages:
+      - language: ru
+        context: [дата, время, запланировано, встреча]
+    patterns:
+      - name: "Date DD.MM.YYYY"
+        regex: "\\b\\d{1,2}\\.\\d{1,2}\\.\\d{2,4}\\b"
+        score: 0.7
+      - name: "Time HH:MM"
+        regex: "\\b\\d{1,2}:\\d{2}\\b"
+        score: 0.7
+    enabled: true
+
+  - name: IPAddressRecognizer
+    type: custom
+    supported_entity: "IP_ADDRESS"
+    supported_languages:
+      - language: ru
+        context: [ip, адрес, ip-адрес]
+    patterns:
+      - name: "IPv4"
+        regex: "\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b"
+        score: 0.8
+    enabled: true
